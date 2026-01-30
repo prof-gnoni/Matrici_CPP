@@ -128,16 +128,26 @@ void stampaMatriceBoxDinamica(int mat[MAX][MAX], int r, int c) {
 // 6. MEDIE, TRACCIA, DETERMINANTE E VETTORI
 void medieRighe(int mat[MAX][MAX], int r, int c) {
     double medie[MAX];
-    int larzIntera = 8; // Spazio per il numero (es: 123.45)
+    int maxIngombro = 0;
 
+    // 1. Calcolo medie e ingombro massimo (incluso segno meno e decimali)
     for (int i = 0; i < r; i++) {
         double somma = 0;
         for (int j = 0; j < c; j++) somma += mat[i][j];
-        medie[i] = somma / c;
+        medie[i] = (double)somma / c;
+
+        int intero = (int)medie[i];
+        int larzIntera = contaCifre(intero);
+
+        // Fix segno meno: se il numero è negativo, aggiungiamo un posto per il '-'
+        if (medie[i] < 0) larzIntera++;
+
+        // Ingombro totale = parte intera (col segno) + punto + 2 decimali
+        int ingombroAttuale = larzIntera + 3;
+        if (ingombroAttuale > maxIngombro) maxIngombro = ingombroAttuale;
     }
 
-    std::cout << "\n--- MEDIE RIGHE ---\n";
-
+    // 2. Simboli Cross-Platform
 #ifdef _WIN32
     unsigned char TL=201, TR=187, BL=200, BR=188, H=205, V=186, ML=204, MR=185;
 #else
@@ -145,43 +155,53 @@ void medieRighe(int mat[MAX][MAX], int r, int c) {
     const char* H ="═"; const char* V ="║"; const char* ML="╠"; const char* MR="╣";
 #endif
 
-    // La larghezza del bordo orizzontale deve includere i 2 spazi di padding (+2)
-    int larzTotale = larzIntera + 2;
+    int larzTotaleBox = maxIngombro + 2; // +2 per il padding " " a sx e dx
 
+    std::cout << "\n--- MEDIE RIGHE ---\n";
+
+    // Bordo Superiore
     std::cout << TL;
-    for (int k = 0; k < larzTotale; k++) std::cout << H;
+    for (int k = 0; k < larzTotaleBox; k++) std::cout << H;
     std::cout << TR << std::endl;
 
     for (int i = 0; i < r; i++) {
-        std::cout << V << " "; // Padding Sinistro
-        std::cout << std::fixed << std::setprecision(2) << std::setw(larzIntera) << medie[i];
-        std::cout << " " << V << std::endl; // Padding Destro
+        // Riga con dato
+        std::cout << V << " " << std::fixed << std::setprecision(2) << std::setw(maxIngombro) << medie[i] << " " << V << std::endl;
 
+        // Divisore intermedio (solo se non è l'ultima riga)
         if (i < r - 1) {
             std::cout << ML;
-            for (int k = 0; k < larzTotale; k++) std::cout << H;
+            for (int k = 0; k < larzTotaleBox; k++) std::cout << H;
             std::cout << MR << std::endl;
         }
     }
 
+    // Bordo Inferiore
     std::cout << BL;
-    for (int k = 0; k < larzTotale; k++) std::cout << H;
+    for (int k = 0; k < larzTotaleBox; k++) std::cout << H;
     std::cout << BR << std::endl;
 }
 
 void medieColonne(int mat[MAX][MAX], int r, int c) {
     double medie[MAX];
-    int larzIntera = 8;
-    int larzTotale = larzIntera + 2; // Numero + 2 spazi di padding
+    int maxIngombroCella = 0;
 
+    // 1. Calcolo medie e cerco l'ingombro della cella più larga per uniformare
     for (int j = 0; j < c; j++) {
         double somma = 0;
         for (int i = 0; i < r; i++) somma += mat[i][j];
-        medie[j] = somma / r;
+        medie[j] = (double)somma / r;
+
+        int intero = (int)medie[j];
+        int larzIntera = contaCifre(intero);
+
+        if (medie[j] < 0) larzIntera++; // Fix segno meno
+
+        int ingombroAttuale = larzIntera + 3;
+        if (ingombroAttuale > maxIngombroCella) maxIngombroCella = ingombroAttuale;
     }
 
-    std::cout << "\n--- MEDIE COLONNE ---\n";
-
+    // 2. Simboli Cross-Platform
 #ifdef _WIN32
     unsigned char TL=201, TR=187, BL=200, BR=188, H=205, V=186, TM=203, BM=202;
 #else
@@ -189,24 +209,29 @@ void medieColonne(int mat[MAX][MAX], int r, int c) {
     const char* H ="═"; const char* V ="║"; const char* TM="╦"; const char* BM="╩";
 #endif
 
+    int larzSingolaCella = maxIngombroCella + 2; // Numero + padding
+
+    std::cout << "\n--- MEDIE COLONNE ---\n";
+
+    // Bordo Superiore
     std::cout << TL;
     for (int j = 0; j < c; j++) {
-        for (int k = 0; k < larzTotale; k++) std::cout << H;
+        for (int k = 0; k < larzSingolaCella; k++) std::cout << H;
         if (j < c - 1) std::cout << TM;
     }
     std::cout << TR << std::endl;
 
+    // Contenuto delle medie
     std::cout << V;
     for (int j = 0; j < c; j++) {
-        std::cout << " "; // Padding Sinistro
-        std::cout << std::fixed << std::setprecision(2) << std::setw(larzIntera) << medie[j];
-        std::cout << " " << V; // Padding Destro
+        std::cout << " " << std::fixed << std::setprecision(2) << std::setw(maxIngombroCella) << medie[j] << " " << V;
     }
     std::cout << std::endl;
 
+    // Bordo Inferiore
     std::cout << BL;
     for (int j = 0; j < c; j++) {
-        for (int k = 0; k < larzTotale; k++) std::cout << H;
+        for (int k = 0; k < larzSingolaCella; k++) std::cout << H;
         if (j < c - 1) std::cout << BM;
     }
     std::cout << BR << std::endl;
