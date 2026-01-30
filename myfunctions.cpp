@@ -212,19 +212,58 @@ int calcolaDeterminante2x2(int mat[MAX][MAX]) {
     return (mat[0][0] * mat[1][1]) - (mat[0][1] * mat[1][0]);
 }
 
-void estraiVettore(int mat[MAX][MAX], int r, int c) {
-    int scelta, indice;
-    std::cout << "1. Estrai Riga | 2. Estrai Colonna: ";
-    std::cin >> scelta;
-    std::cout << "Indice da estrarre: ";
-    std::cin >> indice;
+void stampaMatriceSemplice(int mat[MAX][MAX], int r, int c) {
+    // Recuperiamo l'ingombro massimo per allineare tutto
+    int larz = calcolaLarghezzaMassima(mat, r, c);
 
-    if (scelta == 1 && indice < r) {
+    std::cout << "\n--- Visualizzazione Tabellare ---\n";
+
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            int n = mat[i][j];
+            int occupazioneEffettiva = contaCifre(n);
+            if (n < 0) occupazioneEffettiva++;
+
+            // Stampiamo il numero
+            std::cout << n;
+
+            // Calcoliamo quanti spazi servono per pareggiare la colonna
+            // Aggiungiamo +2 o +3 come "spazio fisso" tra una colonna e l'altra
+            int spaziDaInserire = (larz + 3) - occupazioneEffettiva;
+
+            for (int k = 0; k < spaziDaInserire; k++) {
+                std::cout << " ";
+            }
+        }
+        std::cout << std::endl; // Fine riga
+    }
+    std::cout << "---------------------------------\n";
+}
+
+void estraiVettore(int mat[MAX][MAX], int r, int c) {
+    int tipo, indice;
+
+    do {
+        std::cout << "Vuoi estrarre una 1. RIGA o una 2. COLONNA? ";
+        std::cin >> tipo;
+    } while (tipo != 1 && tipo != 2);
+
+    if (tipo == 1) {
+        do {
+            std::cout << "Inserisci l'indice della riga (0-" << r-1 << "): ";
+            std::cin >> indice;
+        } while (indice < 0 || indice >= r);
+
+        std::cout << "Riga " << indice << ": ";
         for (int j = 0; j < c; j++) std::cout << mat[indice][j] << " ";
-    } else if (scelta == 2 && indice < c) {
-        for (int i = 0; i < r; i++) std::cout << mat[i][indice] << " ";
     } else {
-        std::cout << "Indice errato!";
+        do {
+            std::cout << "Inserisci l'indice della colonna (0-" << c-1 << "): ";
+            std::cin >> indice;
+        } while (indice < 0 || indice >= c);
+
+        std::cout << "Colonna " << indice << ": ";
+        for (int i = 0; i < r; i++) std::cout << mat[i][indice] << " ";
     }
     std::cout << std::endl;
 }

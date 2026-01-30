@@ -10,7 +10,7 @@ const int MAX = 20;
 // Prototipi delle funzioni
 void caricaManuale(int mat[MAX][MAX], int r, int c);
 void caricaAutomatico(int mat[MAX][MAX], int r, int c, int min, int max);
-void stampaMatrice(int mat[MAX][MAX], int r, int c);
+void stampaMatriceSemplice(int mat[MAX][MAX], int r, int c);
 void medieRighe(int mat[MAX][MAX], int r, int c);
 void medieColonne(int mat[MAX][MAX], int r, int c);
 void calcolaTraccia(int mat[MAX][MAX], int r, int c);
