@@ -1,5 +1,6 @@
 #include "myfunctions.h"
 #include <iostream>
+#include <iomanip>
 #include <cstdlib> // Per rand() e srand()
 #include <ctime>   // Per time()
 
@@ -231,31 +232,22 @@ int calcolaDeterminante2x2(int mat[MAX][MAX]) {
 }
 
 void stampaMatriceSemplice(int mat[MAX][MAX], int r, int c) {
-    // Recuperiamo l'ingombro massimo per allineare tutto
+    // 1. Troviamo l'ingombro massimo (es. 5 se il numero più lungo è -100)
     int larz = calcolaLarghezzaMassima(mat, r, c);
 
-    std::cout << "\n--- Visualizzazione Tabellare ---\n";
+    // Aggiungiamo un po' di spazio extra tra le colonne (padding)
+    int spaziatura = larz + 3;
+
+    std::cout << "\n--- Visualizzazione Tabellare (Allineata a Destra) ---\n";
 
     for (int i = 0; i < r; i++) {
         for (int j = 0; j < c; j++) {
-            int n = mat[i][j];
-            int occupazioneEffettiva = contaCifre(n);
-            if (n < 0) occupazioneEffettiva++;
-
-            // Stampiamo il numero
-            std::cout << n;
-
-            // Calcoliamo quanti spazi servono per pareggiare la colonna
-            // Aggiungiamo +2 o +3 come "spazio fisso" tra una colonna e l'altra
-            int spaziDaInserire = (larz + 3) - occupazioneEffettiva;
-
-            for (int k = 0; k < spaziDaInserire; k++) {
-                std::cout << " ";
-            }
+            // std::setw(n) riserva n spazi e allinea a DESTRA il valore successivo
+            std::cout << std::right << std::setw(spaziatura) << mat[i][j];
         }
-        std::cout << std::endl; // Fine riga
+        std::cout << std::endl; // Vai a capo alla fine di ogni riga
     }
-    std::cout << "---------------------------------\n";
+    std::cout << "------------------------------------------------------\n";
 }
 
 void estraiVettore(int mat[MAX][MAX], int r, int c) {
