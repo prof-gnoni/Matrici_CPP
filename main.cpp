@@ -6,20 +6,45 @@
 #endif
 
 void stampaMenu() {
-    std::cout << "\n╔════════════════════════════════╗" << std::endl;
-    std::cout << "║       GESTIONE MATRICI         ║" << std::endl;
-    std::cout << "╠════════════════════════════════╣" << std::endl;
-    std::cout << "║ 1. Caricamento Manuale         ║" << std::endl;
-    std::cout << "║ 2. Caricamento Automatico      ║" << std::endl; // Spazi corretti
-    std::cout << "║ 3. Stampa Boxata (Griglia)     ║" << std::endl;
-    std::cout << "║ 4. Stampa Semplice (Tabella)   ║" << std::endl;
-    std::cout << "║ 5. Medie Righe (Colonna Box)   ║" << std::endl;
-    std::cout << "║ 6. Medie Colonne (Riga Box)    ║" << std::endl;
-    std::cout << "║ 7. Calcola Traccia             ║" << std::endl;
-    std::cout << "║ 8. Calcola Determinante (2x2)  ║" << std::endl;
-    std::cout << "║ 9. Estrai Riga o Colonna       ║" << std::endl;
-    std::cout << "║ 0. Esci                        ║" << std::endl;
-    std::cout << "╚════════════════════════════════╝" << std::endl;
+#ifdef _WIN32
+    // Codici Extended ASCII per Windows (Code Page 437)
+    unsigned char TL = 201; unsigned char TR = 187;
+    unsigned char BL = 200; unsigned char BR = 188;
+    unsigned char H  = 205; unsigned char V  = 186;
+    unsigned char ML = 204; unsigned char MR = 185;
+#else
+    // Simboli UTF-8 per Mac
+    const char* TL = "╔"; const char* TR = "╗";
+    const char* BL = "╚"; const char* BR = "╝";
+    const char* H  = "═"; const char* V  = "║";
+    const char* ML = "╠"; const char* MR = "╣";
+#endif
+
+    std::cout << "\n" << TL;
+    for(int i=0; i<32; i++) std::cout << H;
+    std::cout << TR << std::endl;
+
+    std::cout << V << "       GESTIONE MATRICI         " << V << std::endl;
+
+    std::cout << ML;
+    for(int i=0; i<32; i++) std::cout << H;
+    std::cout << MR << std::endl;
+
+    std::cout << V << " 1. Caricamento Manuale         " << V << std::endl;
+    std::cout << V << " 2. Caricamento Automatico      " << V << std::endl;
+    std::cout << V << " 3. Stampa Boxata (Griglia)     " << V << std::endl;
+    std::cout << V << " 4. Stampa Semplice (Tabella)   " << V << std::endl;
+    std::cout << V << " 5. Medie Righe (Colonna Box)   " << V << std::endl;
+    std::cout << V << " 6. Medie Colonne (Riga Box)    " << V << std::endl;
+    std::cout << V << " 7. Calcola Traccia             " << V << std::endl;
+    std::cout << V << " 8. Calcola Determinante (2x2)  " << V << std::endl;
+    std::cout << V << " 9. Estrai Riga o Colonna       " << V << std::endl;
+    std::cout << V << " 0. Esci                        " << V << std::endl;
+
+    std::cout << BL;
+    for(int i=0; i<32; i++) std::cout << H;
+    std::cout << BR << std::endl;
+
     std::cout << "Scelta: ";
 }
 
