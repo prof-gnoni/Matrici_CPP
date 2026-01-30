@@ -128,7 +128,7 @@ void stampaMatriceBoxDinamica(int mat[MAX][MAX], int r, int c) {
 // 6. MEDIE, TRACCIA, DETERMINANTE E VETTORI
 void medieRighe(int mat[MAX][MAX], int r, int c) {
     double medie[MAX];
-    int larz = 8;
+    int larzIntera = 8; // Spazio per il numero (es: 123.45)
 
     for (int i = 0; i < r; i++) {
         double somma = 0;
@@ -139,41 +139,40 @@ void medieRighe(int mat[MAX][MAX], int r, int c) {
     std::cout << "\n--- MEDIE RIGHE ---\n";
 
 #ifdef _WIN32
-    unsigned char TL = 201; unsigned char TR = 187;
-    unsigned char BL = 200; unsigned char BR = 188;
-    unsigned char H  = 205; unsigned char V  = 186;
-    unsigned char ML = 204; unsigned char MR = 185;
+    unsigned char TL=201, TR=187, BL=200, BR=188, H=205, V=186, ML=204, MR=185;
 #else
-    const char* TL = "╔"; const char* TR = "╗";
-    const char* BL = "╚"; const char* BR = "╝";
-    const char* H  = "═"; const char* V  = "║";
-    const char* ML = "╠"; const char* MR = "╣";
+    const char* TL="╔"; const char* TR="╗"; const char* BL="╚"; const char* BR="╝";
+    const char* H ="═"; const char* V ="║"; const char* ML="╠"; const char* MR="╣";
 #endif
 
+    // La larghezza del bordo orizzontale deve includere i 2 spazi di padding (+2)
+    int larzTotale = larzIntera + 2;
+
     std::cout << TL;
-    for (int k = 0; k < larz; k++) std::cout << H;
+    for (int k = 0; k < larzTotale; k++) std::cout << H;
     std::cout << TR << std::endl;
 
     for (int i = 0; i < r; i++) {
-        std::cout << V;
-        printf(" %6.2f ", medie[i]);
-        std::cout << V << std::endl;
+        std::cout << V << " "; // Padding Sinistro
+        std::cout << std::fixed << std::setprecision(2) << std::setw(larzIntera) << medie[i];
+        std::cout << " " << V << std::endl; // Padding Destro
 
         if (i < r - 1) {
             std::cout << ML;
-            for (int k = 0; k < larz; k++) std::cout << H;
+            for (int k = 0; k < larzTotale; k++) std::cout << H;
             std::cout << MR << std::endl;
         }
     }
 
     std::cout << BL;
-    for (int k = 0; k < larz; k++) std::cout << H;
+    for (int k = 0; k < larzTotale; k++) std::cout << H;
     std::cout << BR << std::endl;
 }
 
 void medieColonne(int mat[MAX][MAX], int r, int c) {
     double medie[MAX];
-    int larz = 8;
+    int larzIntera = 8;
+    int larzTotale = larzIntera + 2; // Numero + 2 spazi di padding
 
     for (int j = 0; j < c; j++) {
         double somma = 0;
@@ -184,34 +183,30 @@ void medieColonne(int mat[MAX][MAX], int r, int c) {
     std::cout << "\n--- MEDIE COLONNE ---\n";
 
 #ifdef _WIN32
-    unsigned char TL = 201; unsigned char TR = 187;
-    unsigned char BL = 200; unsigned char BR = 188;
-    unsigned char H  = 205; unsigned char V  = 186;
-    unsigned char TM = 203; unsigned char BM = 202;
+    unsigned char TL=201, TR=187, BL=200, BR=188, H=205, V=186, TM=203, BM=202;
 #else
-    const char* TL = "╔"; const char* TR = "╗";
-    const char* BL = "╚"; const char* BR = "╝";
-    const char* H  = "═"; const char* V  = "║";
-    const char* TM = "╦"; const char* BM = "╩";
+    const char* TL="╔"; const char* TR="╗"; const char* BL="╚"; const char* BR="╝";
+    const char* H ="═"; const char* V ="║"; const char* TM="╦"; const char* BM="╩";
 #endif
 
     std::cout << TL;
     for (int j = 0; j < c; j++) {
-        for (int k = 0; k < larz; k++) std::cout << H;
+        for (int k = 0; k < larzTotale; k++) std::cout << H;
         if (j < c - 1) std::cout << TM;
     }
     std::cout << TR << std::endl;
 
     std::cout << V;
     for (int j = 0; j < c; j++) {
-        printf(" %6.2f ", medie[j]);
-        std::cout << V;
+        std::cout << " "; // Padding Sinistro
+        std::cout << std::fixed << std::setprecision(2) << std::setw(larzIntera) << medie[j];
+        std::cout << " " << V; // Padding Destro
     }
     std::cout << std::endl;
 
     std::cout << BL;
     for (int j = 0; j < c; j++) {
-        for (int k = 0; k < larz; k++) std::cout << H;
+        for (int k = 0; k < larzTotale; k++) std::cout << H;
         if (j < c - 1) std::cout << BM;
     }
     std::cout << BR << std::endl;
