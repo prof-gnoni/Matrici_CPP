@@ -58,14 +58,24 @@ void caricaAutomatico(int mat[MAX][MAX], int r, int c, int min, int max) {
 void stampaMatriceBoxDinamica(int mat[MAX][MAX], int r, int c) {
     int larz = calcolaLarghezzaMassima(mat, r, c) + 2;
 
-    // Definiamo i pezzi della griglia (versione universale Mac/Linux)
-    // Per Windows in lab, se non li vedi, usa +, -, |
+    // --- SEZIONE CROSS-PLATFORM PER I SIMBOLI ---
+#ifdef _WIN32
+    // Codici Extended ASCII (PC-8 / CP437) per Windows Lab
+    unsigned char TL = 201; unsigned char TR = 187;
+    unsigned char BL = 200; unsigned char BR = 188;
+    unsigned char H  = 205; unsigned char V  = 186;
+    unsigned char TM = 203; unsigned char BM = 202;
+    unsigned char MM = 206; unsigned char ML = 204;
+    unsigned char MR = 185;
+#else
+    // Stringhe UTF-8 per il tuo Mac
     const char* TL = "╔"; const char* TR = "╗";
     const char* BL = "╚"; const char* BR = "╝";
     const char* H  = "═"; const char* V  = "║";
     const char* TM = "╦"; const char* BM = "╩";
     const char* MM = "╬"; const char* ML = "╠";
     const char* MR = "╣";
+#endif
 
     // 1. BORDO SUPERIORE
     std::cout << TL;
@@ -79,7 +89,6 @@ void stampaMatriceBoxDinamica(int mat[MAX][MAX], int r, int c) {
     for (int i = 0; i < r; i++) {
         std::cout << V;
         for (int j = 0; j < c; j++) {
-            // Allineamento centrato/destra manuale
             int n = mat[i][j];
             int cifre = contaCifre(n);
             if (n < 0) cifre++;
@@ -95,7 +104,7 @@ void stampaMatriceBoxDinamica(int mat[MAX][MAX], int r, int c) {
         }
         std::cout << std::endl;
 
-        // 3. DIVISORE ORIZZONTALE (solo se non è l'ultima riga)
+        // 3. DIVISORE ORIZZONTALE (intermedio)
         if (i < r - 1) {
             std::cout << ML;
             for (int j = 0; j < c; j++) {
