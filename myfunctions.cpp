@@ -129,30 +129,35 @@ void medieRighe(int mat[MAX][MAX], int r, int c) {
     double medie[MAX];
     int larz = 8;
 
-    // Calcolo
     for (int i = 0; i < r; i++) {
         double somma = 0;
         for (int j = 0; j < c; j++) somma += mat[i][j];
         medie[i] = somma / c;
     }
 
-    std::cout << "\n--- MEDIE RIGHE (Vettore Colonna) ---\n";
-    const char* TL = "╔"; const char* TR = "╗"; const char* BL = "╚"; const char* BR = "╝";
+    std::cout << "\n--- MEDIE RIGHE ---\n";
+
+#ifdef _WIN32
+    unsigned char TL = 201; unsigned char TR = 187;
+    unsigned char BL = 200; unsigned char BR = 188;
+    unsigned char H  = 205; unsigned char V  = 186;
+    unsigned char ML = 204; unsigned char MR = 185;
+#else
+    const char* TL = "╔"; const char* TR = "╗";
+    const char* BL = "╚"; const char* BR = "╝";
     const char* H  = "═"; const char* V  = "║";
     const char* ML = "╠"; const char* MR = "╣";
+#endif
 
-    // Bordo superiore
     std::cout << TL;
     for (int k = 0; k < larz; k++) std::cout << H;
     std::cout << TR << std::endl;
 
-    // Righe
     for (int i = 0; i < r; i++) {
         std::cout << V;
         printf(" %6.2f ", medie[i]);
         std::cout << V << std::endl;
 
-        // Divisore intermedio
         if (i < r - 1) {
             std::cout << ML;
             for (int k = 0; k < larz; k++) std::cout << H;
@@ -160,7 +165,6 @@ void medieRighe(int mat[MAX][MAX], int r, int c) {
         }
     }
 
-    // Bordo inferiore
     std::cout << BL;
     for (int k = 0; k < larz; k++) std::cout << H;
     std::cout << BR << std::endl;
@@ -168,21 +172,28 @@ void medieRighe(int mat[MAX][MAX], int r, int c) {
 
 void medieColonne(int mat[MAX][MAX], int r, int c) {
     double medie[MAX];
-    int larz = 8; // Larghezza fissa per le medie (es. 00.00)
+    int larz = 8;
 
-    // Calcolo
     for (int j = 0; j < c; j++) {
         double somma = 0;
         for (int i = 0; i < r; i++) somma += mat[i][j];
         medie[j] = somma / r;
     }
 
-    std::cout << "\n--- MEDIE COLONNE (Vettore Riga) ---\n";
-    // Disegno griglia orizzontale
-    const char* TL = "╔"; const char* TR = "╗"; const char* BL = "╚"; const char* BR = "╝";
-    const char* H  = "═"; const char* V  = "║"; const char* TM = "╦"; const char* BM = "╩";
+    std::cout << "\n--- MEDIE COLONNE ---\n";
 
-    // Bordo sopra
+#ifdef _WIN32
+    unsigned char TL = 201; unsigned char TR = 187;
+    unsigned char BL = 200; unsigned char BR = 188;
+    unsigned char H  = 205; unsigned char V  = 186;
+    unsigned char TM = 203; unsigned char BM = 202;
+#else
+    const char* TL = "╔"; const char* TR = "╗";
+    const char* BL = "╚"; const char* BR = "╝";
+    const char* H  = "═"; const char* V  = "║";
+    const char* TM = "╦"; const char* BM = "╩";
+#endif
+
     std::cout << TL;
     for (int j = 0; j < c; j++) {
         for (int k = 0; k < larz; k++) std::cout << H;
@@ -190,15 +201,13 @@ void medieColonne(int mat[MAX][MAX], int r, int c) {
     }
     std::cout << TR << std::endl;
 
-    // Contenuto (Medie)
     std::cout << V;
     for (int j = 0; j < c; j++) {
-        printf(" %6.2f ", medie[j]); // Stampa il double con 2 decimali
+        printf(" %6.2f ", medie[j]);
         std::cout << V;
     }
     std::cout << std::endl;
 
-    // Bordo sotto
     std::cout << BL;
     for (int j = 0; j < c; j++) {
         for (int k = 0; k < larz; k++) std::cout << H;
